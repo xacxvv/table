@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}{{ class_name }} ангийн хуваарь{% endblock %}
+
+{% block content %}
+  <a class="back-link" href="{{ url_for('index') }}">← Буцах</a>
+  <h1>{{ class_name }} ангийн 7 хоногийн хуваарь</h1>
+  <div class="timetable-section">
+    <h2>Сондгой долоо хоног</h2>
+    <div class="table-wrapper">
+      <table class="timetable">
+        <thead>
+          <tr>
+            <th>Цаг</th>
+            {% for day in days %}
+              <th>{{ day }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in odd_week %}
+            {% set period_label = periods[loop.index0] if loop.index0 < periods|length else loop.index %}
+            <tr>
+              <th>{{ period_label }}</th>
+              {% for cell in row %}
+                <td>
+                  {% if cell.subject %}<strong>{{ cell.subject }}</strong><br />{% endif %}
+                  {% if cell.teacher %}<span class="detail">{{ cell.teacher }}</span><br />{% endif %}
+                  {% if cell.room %}<span class="detail room">{{ cell.room }}</span><br />{% endif %}
+                  {% for extra in cell.extra_lines %}
+                    <span class="detail">{{ extra }}</span>{% if not loop.last %}<br />{% endif %}
+                  {% endfor %}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="timetable-section">
+    <h2>Тэгш долоо хоног</h2>
+    <div class="table-wrapper">
+      <table class="timetable">
+        <thead>
+          <tr>
+            <th>Цаг</th>
+            {% for day in days %}
+              <th>{{ day }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in even_week %}
+            {% set period_label = periods[loop.index0] if loop.index0 < periods|length else loop.index %}
+            <tr>
+              <th>{{ period_label }}</th>
+              {% for cell in row %}
+                <td>
+                  {% if cell.subject %}<strong>{{ cell.subject }}</strong><br />{% endif %}
+                  {% if cell.teacher %}<span class="detail">{{ cell.teacher }}</span><br />{% endif %}
+                  {% if cell.room %}<span class="detail room">{{ cell.room }}</span><br />{% endif %}
+                  {% for extra in cell.extra_lines %}
+                    <span class="detail">{{ extra }}</span>{% if not loop.last %}<br />{% endif %}
+                  {% endfor %}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

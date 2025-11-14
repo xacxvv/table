@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="mn">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Хичээлийн хуваарь{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="header-content">
+        <a href="{{ url_for('index') }}" class="brand">
+          <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo" />
+          <div class="brand-text">
+            <span class="brand-title">Дотоод хэргийн их сургууль</span>
+            <span class="brand-subtitle">Хичээлийн 7 хоногийн хуваарь</span>
+          </div>
+        </a>
+      </div>
+    </header>
+    <main class="app-main">
+      <div class="container">
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+    <footer class="app-footer">
+      © 2025 Дотоод хэргийн их сургууль • Дотоод сүлжээний хэрэглээнд
+    </footer>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

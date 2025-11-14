@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Хичээлийн 7 хоногийн хуваарь{% endblock %}
+
+{% block content %}
+  <section class="intro">
+    <h1>Хичээлийн 7 хоногийн хуваарь</h1>
+    <p class="lead">Сургууль, анги эсвэл багшаар сонгож долоо хоногийн хичээлийн хуваарийг үзнэ үү.</p>
+  </section>
+  <section class="selection-grid">
+    <div class="card">
+      <h2>Суралцагчаар (ангиар) харах</h2>
+      <form action="{{ url_for('class_timetable') }}" method="get" class="form-grid" id="class-form">
+        <label for="school-select">Сургууль</label>
+        <select id="school-select" name="school">
+          {% for school in schools %}
+            <option value="{{ school }}">{{ school }}</option>
+          {% endfor %}
+        </select>
+        <label for="class-select">Анги</label>
+        <select id="class-select" name="class_name" required></select>
+        <button type="submit" class="primary">Хуваарь харах</button>
+      </form>
+    </div>
+    <div class="card">
+      <h2>Багшаар харах</h2>
+      <form action="{{ url_for('teacher_timetable') }}" method="get" class="form-grid">
+        <label for="teacher-select">Багш</label>
+        <select id="teacher-select" name="teacher_name" required>
+          {% for teacher in teacher_names %}
+            <option value="{{ teacher }}">{{ teacher }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit" class="primary">Хуваарь харах</button>
+      </form>
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    const schoolToClasses = {{ school_to_classes_json | safe }};
+    const schoolSelect = document.getElementById('school-select');
+    const classSelect = document.getElementById('class-select');
+
+    function populateClasses() {
+      const selectedSchool = schoolSelect.value;
+      const classes = schoolToClasses[selectedSchool] || [];
+      classSelect.innerHTML = '';
+      classes.forEach((className) => {
+        const option = document.createElement('option');
+        option.value = className;
+        option.textContent = className;
+        classSelect.appendChild(option);
+      });
+    }
+
+    if (schoolSelect) {
+      schoolSelect.addEventListener('change', populateClasses);
+      populateClasses();
+    }
+  </script>
+{% endblock %}
